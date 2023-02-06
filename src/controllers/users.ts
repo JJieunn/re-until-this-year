@@ -16,7 +16,7 @@ const checkEmail = async (req: Request, res: Response) => {
 
 const createUserInfo = async (req: Request, res: Response) => {
   const data: CreateDataDTO = req.body;
-  if(!(data.email && data.nickname && data.email && data.fortune_id && data.goals )) {
+  if(!(data.email && data.nickname && data.fortune_id && data.goals )) {
     throw new EmptyException("Input_Error"); }
   
   let regExpResult = regExpCheck(data);
