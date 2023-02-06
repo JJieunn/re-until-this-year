@@ -108,10 +108,21 @@ const updateUserInfo = async (userId: number, data: UpdateDataDTO) => {
   .execute()
 }
 
+const updateUserImage = async (userId: number, data: UpdateDataDTO) => {
+  await dataSource.createQueryBuilder()
+  .update(Users)
+  .set({
+    image: data.image
+  })
+  .where("id = :userId", { userId })
+  .execute()
+}
+
 
 
 export default {
   getEmails,
   createUser,
-  updateGoals
+  updateGoals,
+  updateUserImage
 }

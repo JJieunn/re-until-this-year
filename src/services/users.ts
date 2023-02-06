@@ -1,6 +1,7 @@
 import userDao from "../models/users";
 import CryptoJS from "crypto-js";
-import { CheckDataDTO, CreateDataDTO } from "../dto/userDTO";
+import { CheckDataDTO, CreateDataDTO, UpdateDataDTO } from "../dto/userDTO";
+import { NotFoundException } from "../middlewares/exceptions"
 
 
 
@@ -58,9 +59,19 @@ const createUserInfo = async (data: CreateDataDTO) => {
   }
 }
 
+const updateUserImage = async (data: UpdateDataDTO) => {
+  const foundUser = await checkEmail(data)
+
+  if(foundUser.res) { 
+    await userDao.updateUserImage(foundUser.idx, data);
+  }
+  else if(!foundUser.res) { throw new NotFoundException("User_Not_Found"); }
+}
+
 
 
 export default {
   checkEmail,
-  createUserInfo
+  createUserInfo,
+  updateUserImage
 }
