@@ -15,10 +15,26 @@ export class EmptyException extends BadRequestException {
   }
 }
 
+export class RegExpException extends BadRequestException {
+
+  constructor(message: string) {
+    super(400, message)
+    this.name = "RegExp Validate Exception"
+  }
+}
+
 export class DuplicateException extends BadRequestException {
 
   constructor(message: string) {
     super(409, message)
     this.name = "Duplicate Exception"
+  }
+}
+
+export class NotFoundException extends BadRequestException {
+
+  constructor(message: string) {
+    super(404, message)
+    this.name = "Not Found Exception"
   }
 }
