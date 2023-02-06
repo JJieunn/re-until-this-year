@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CheckDataDTO, CreateDataDTO } from "../dto/userDTO";
+import { CheckDataDTO, CreateDataDTO, UpdateDataDTO } from "../dto/userDTO";
 import { DuplicateException, EmptyException } from "../middlewares/exceptions";
 import { regExpCheck } from "../middlewares/regexpCheck";
 import userService from "../services/users";
@@ -26,9 +26,18 @@ const createUserInfo = async (req: Request, res: Response) => {
     return res.status(201).json({ message : "User_Created" }) }
 }
 
+const updateUserImage = async (req: Request, res: Response) => {
+  const data: UpdateDataDTO = req.body;
+  if(!(data.email && data.image)) { throw new EmptyException("Input_Error"); }
+
+  await userService.updateUserImage(data);
+  return res.status(200).json({ message : "Req_Success" })
+}
+
 
 
 export default {
   checkEmail,
-  createUserInfo
+  createUserInfo,
+  updateUserImage
 }

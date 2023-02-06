@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.post("/check", asyncWrap(userController.checkEmail))
 router.post("/registration", asyncWrap(userController.createUserInfo))
+router.post("/image", asyncWrap(userController.updateUserImage))
 
 
 export default router
