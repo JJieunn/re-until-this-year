@@ -1,0 +1,11 @@
+{
+  "apps" : [{
+    "name": "Kkachi-server",
+    "script": "dist/server.js",
+    "instances": 0,
+    "exec_mode": "cluster",
+    "merge_logs": true,
+    "autorestart": true,
+    "watch": false
+  }]
+}
