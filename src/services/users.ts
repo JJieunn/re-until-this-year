@@ -59,19 +59,9 @@ const createUserInfo = async (data: CreateDataDTO) => {
   }
 }
 
-const updateUserImage = async (data: UpdateDataDTO) => {
-  const foundUser = await checkEmail(data)
-
-  if(foundUser.res) { 
-    await userDao.updateUserImage(foundUser.idx, data);
-  }
-  else if(!foundUser.res) { throw new NotFoundException("User_Not_Found"); }
-}
-
 
 
 export default {
   checkEmail,
-  createUserInfo,
-  updateUserImage
+  createUserInfo
 }
