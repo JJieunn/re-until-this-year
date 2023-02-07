@@ -25,7 +25,7 @@ const createUser = async (data: CreateDataDTO): Promise<void> => {
 
   try {
     let values: string = ``
-    const insertId = await insertUser(data);
+    const insertId = await insertUserInfo(data);
     data.goals.forEach((el, i) => {
       values += `(${insertId}, "${el}")`;
       if(i < data.goals.length-1) { values += ","; }
@@ -38,28 +38,6 @@ const createUser = async (data: CreateDataDTO): Promise<void> => {
   } finally {
     await queryRunner.release();
   }
-}
-
-const insertUser = async(data: CreateDataDTO): Promise<number> => {
-  const result = await dataSource.createQueryBuilder()
-    .insert()
-    .into(Users)
-    .values({
-      nickname: data.nickname,
-      email: data.email,
-      fortune_id: +data.fortune_id,
-      opt_in: data.opt_in
-    })
-    .execute()
-
-  return result.raw.insertId;
-}
-
-const insertGoals = async (values: string) => {
-  return await dataSource.query(`
-      INSERT INTO goals(user_id, goal)
-      VALUES ${values}
-  `)
 }
 
 const updateGoals = async (userId: number, data: UpdateDataDTO) => {
@@ -95,6 +73,22 @@ const updateGoals = async (userId: number, data: UpdateDataDTO) => {
   }
 }
 
+
+const insertUserInfo = async(data: CreateDataDTO): Promise<number> => {
+  const result = await dataSource.createQueryBuilder()
+    .insert()
+    .into(Users)
+    .values({
+      nickname: data.nickname,
+      email: data.email,
+      fortune_id: +data.fortune_id,
+      opt_in: data.opt_in
+    })
+    .execute()
+
+  return result.raw.insertId;
+}
+
 const updateUserInfo = async (userId: number, data: UpdateDataDTO) => {
   await dataSource.createQueryBuilder()
   .update(Users)
@@ -108,14 +102,11 @@ const updateUserInfo = async (userId: number, data: UpdateDataDTO) => {
   .execute()
 }
 
-const updateUserImage = async (userId: number, data: UpdateDataDTO) => {
-  await dataSource.createQueryBuilder()
-  .update(Users)
-  .set({
-    image: data.image
-  })
-  .where("id = :userId", { userId })
-  .execute()
+const insertGoals = async (values: string) => {
+  return await dataSource.query(`
+      INSERT INTO goals(user_id, goal)
+      VALUES ${values}
+  `)
 }
 
 
@@ -123,6 +114,5 @@ const updateUserImage = async (userId: number, data: UpdateDataDTO) => {
 export default {
   getEmails,
   createUser,
-  updateGoals,
-  updateUserImage
+  updateGoals
 }
